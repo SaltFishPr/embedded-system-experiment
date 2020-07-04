@@ -8,6 +8,8 @@ from flask import Flask, redirect, url_for
 from wws_and_jl.auth import auth
 from . import db
 
+print(os.getcwd())
+
 
 def create_app(test_config=None):
     # create and configure the app
