@@ -19,16 +19,17 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from wws_and_jl.db import get_db
 
-bp = Blueprint("auth", __name__, url_prefix="/auth")
+bp = Blueprint(
+    "auth", __name__, url_prefix="/auth", template_folder="templates"
+)  #  url_prefix 会添加到所有与该蓝图关联的 URL 前面
 
 
-@app.route("/")
+@bp.route("/index")
 def index():
-    # TODO: 写一个只有输入框的login.html添加到auth/templates中，添加登陆按钮并将登陆操作绑定到回车上，登陆url为"/login"
-    return render_template("auth/login.html")
+    return render_template("login.html")
 
 
-@app.route("/login", methods=["POST"])
+@bp.route("/login", methods=["POST"])
 def login():
     password = request.form["password"]
     db = get_db()
