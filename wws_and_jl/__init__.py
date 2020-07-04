@@ -4,7 +4,8 @@
 # @file: __init__.py
 # @date: 2020/07/02
 import os
-from flask import Flask
+from flask import Flask, redirect, url_for
+from wws_and_jl.auth import auth
 from . import db
 
 
@@ -29,10 +30,21 @@ def create_app(test_config=None):
         pass
 
     db.init_app(app)
+    app.register_blueprint(auth.bp)
 
     # a simple page that says hello
     @app.route("/hello")
     def hello():
-        return "Hello, World!"
+        return "Hello, wws_and_jl!"
+
+    @app.route("/")
+    def index():
+        # TODO: 写一个只有输入框的login.html添加到auth/templates中，添加登陆按钮并将登陆操作绑定到回车上，登陆url为"/auth/login"
+        return redirect(url_for("auth.index"))
+
+    # 关联端点名称 'index' 和 URL "/"
+    # 这样 url_for('index') 或 url_for('***.index') 都会有效
+    # 会生成同样的 URL "/"
+    app.add_url_rule("/", endpoint="index")
 
     return app
