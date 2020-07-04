@@ -26,6 +26,7 @@ bp = Blueprint(
 
 @bp.route("/index")
 def index():
+    # TODO: 写一个只有输入框的login.html添加到auth/templates中，添加登陆按钮并将登陆操作绑定到回车上，登陆url为"/auth/login"
     return render_template("login.html")
 
 
