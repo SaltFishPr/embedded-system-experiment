@@ -24,22 +24,24 @@ bp = Blueprint(
 )  #  url_prefix 会添加到所有与该蓝图关联的 URL 前面
 
 
-@bp.route("/index")
-def index():
-    # TODO: 写一个只有输入框的login.html添加到auth/templates中，添加登陆按钮并将登陆操作绑定到回车上，登陆url为"/auth/login"
+@bp.route('/')
+@bp.route("/login.html")
+def login_page():
     return render_template("login.html")
-
 
 @bp.route("/login", methods=["POST"])
 def login():
-    password = request.form["password"]
-    db = get_db()
-    if password == "wws_and_jl":
-        session.clear()
-        session["user_id"] = "admin"  # 存储cookie
-        return redirect(url_for("stream"))
-    else:
-        return redirect(url_for("auth.login"))
+    admin_confirm = request.form["admin_confirm"]
+    print(admin_confirm)
+    data = {
+        'flag' : 0  # 0成功，其他失败
+    }
+    return data
+
+@bp.route("/main.html")
+def main_page():
+    return render_template("main.html")
+
 
 
 @bp.route("/logout")
