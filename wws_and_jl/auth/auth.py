@@ -37,9 +37,9 @@ def login():
     if password == "wws_and_jl":
         session.clear()
         session["user_id"] = "admin"  # 存储cookie
-        return "success"
+        return redirect(url_for("stream"))
     else:
-        return "fail"
+        return redirect(url_for("auth.login"))
 
 
 @bp.route("/logout")
