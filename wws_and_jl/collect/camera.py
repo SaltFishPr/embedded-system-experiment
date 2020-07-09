@@ -128,10 +128,17 @@ class CameraTest(BaseCamera):
     """An emulated camera implementation that streams a repeated sequence of
     files 1.jpg, 2.jpg and 3.jpg at a rate of one frame per second."""
 
-    imgs = [open(f + ".jpg", "rb").read() for f in ["images/1", "images/2", "images/3"]]
+    imgs = [
+        open(f + ".jpg", "rb").read()
+        for f in [
+            "wws_and_jl/collect/images/1",
+            "wws_and_jl/collect/images/2",
+            "wws_and_jl/collect/images/3",
+        ]
+    ]
 
     @staticmethod
     def frames():
         while True:
             time.sleep(1)
-            yield Camera.imgs[int(time.time()) % 3]
+            yield CameraTest.imgs[int(time.time()) % 3]

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
     <script src="https://cdn.staticfile.org/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 </head>
+
 <body>
 
     <div>
@@ -19,19 +21,19 @@
 
 </body>
 <script>
-    $(document).keydown(function(e){
-        var e = window.event; 
-        if(e.keyCode == 32){
+    $(document).keydown(function (e) {
+        var e = window.event;
+        if (e.keyCode == 32) {
             return false;
-        }
-        if(e.keyCode == 13){
+        }
+        if (e.keyCode == 13) {
             login()
         }
-     });
+    });
 
-    function login(){
+    function login() {
         let admin_confirm = $('#admin_confirm').val()  // 取出用户密码
-        if(admin_confirm === ""){  // 用户密码为空则提示用户并返回
+        if (admin_confirm === "") {  // 用户密码为空则提示用户并返回
             alert("密码不能为空")
             return
         }
@@ -41,13 +43,13 @@
             data: {
                 "admin_confirm": admin_confirm
             },
-            success: data=>{
-                if(data['flag']==0){
+            success: data => {
+                if (data['flag'] == 0) {
                     console.log(data)
                     alert("登录成功")
-                    $.cookie('admin_confirm',admin_confirm)
-                    window.location.href = "main.html"
-                }else{
+                    $.cookie('admin_confirm', admin_confirm)  // TODO: 这里的cookie认证如果比后台cookie认证方便写  可以把auth中的login和logout改一下
+                    window.location.href = "/main.html"
+                } else {
                     alert("密码错误")
                 }
             }

@@ -47,6 +47,16 @@ def logout():
     return redirect("/auth/login.html")
 
 
+@bp.before_app_request
+def load_logged_in_user():
+    user_id = session.get("user_id")
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = "admin"
+
+
 def login_required(view):
     """
     在其它视图中验证登陆
@@ -55,7 +65,7 @@ def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
-            return redirect(url_for("auth.login"))
+            return redirect("/auth/login.html")
         return view(**kwargs)
 
     return wrapped_view

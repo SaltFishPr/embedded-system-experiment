@@ -14,11 +14,12 @@ from flask import (
     request,
     session,
     url_for,
+    Response,
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from wws_and_jl.auth.auth import login_required
 from wws_and_jl.db import get_db
-from wws_and_jl.collect.camera import Camera
+from wws_and_jl.collect.camera import Camera, CameraTest
 
 bp = Blueprint(
     "collect", __name__, url_prefix="/", template_folder="templates"
@@ -43,7 +44,10 @@ def gen(camera):
 @login_required
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(Camera()), mimetype="multipart/x-mixed-replace; boundary=frame")
+    # return Response(gen(Camera()), mimetype="multipart/x-mixed-replace; boundary=frame")
+    return Response(
+        gen(CameraTest()), mimetype="multipart/x-mixed-replace; boundary=frame"
+    )
 
 
 @bp.route("/main.html")
