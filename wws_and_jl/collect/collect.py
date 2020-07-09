@@ -22,7 +22,11 @@ from wws_and_jl.db import get_db
 from wws_and_jl.collect.camera import Camera, CameraTest
 
 bp = Blueprint(
-    "collect", __name__, url_prefix="/", template_folder="templates"
+    "collect",
+    __name__,
+    url_prefix="/",
+    static_folder="static",
+    template_folder="templates",
 )  #  url_prefix 会添加到所有与该蓝图关联的 URL 前面
 
 
@@ -41,13 +45,12 @@ def gen(camera):
 
 
 @bp.route("/video_feed")
-@login_required
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    # return Response(gen(Camera()), mimetype="multipart/x-mixed-replace; boundary=frame")
-    return Response(
-        gen(CameraTest()), mimetype="multipart/x-mixed-replace; boundary=frame"
-    )
+    return Response(gen(Camera()), mimetype="multipart/x-mixed-replace; boundary=frame")
+    # return Response(
+    #     gen(CameraTest()), mimetype="multipart/x-mixed-replace; boundary=frame"
+    # )
 
 
 @bp.route("/main.html")

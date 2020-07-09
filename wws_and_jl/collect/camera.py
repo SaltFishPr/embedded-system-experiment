@@ -1,5 +1,7 @@
 import time
 import threading
+import picamera
+import io
 
 try:
     from greenlet import getcurrent as get_ident

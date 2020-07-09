@@ -20,8 +20,12 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from wws_and_jl.db import get_db
 
 bp = Blueprint(
-    "auth", __name__, url_prefix="/auth", template_folder="templates"
-)  #  url_prefix 会添加到所有与该蓝图关联的 URL 前面
+    "auth",  # 创建蓝图的名称
+    __name__,  # 蓝图需要知道是在哪里定义的，因此把 __name__ 作为函数的第二个参数
+    url_prefix="/auth",  # url_prefix 会添加到所有与该蓝图关联的 URL 前面
+    static_folder="static",  # 静态文件目录（相对路径）
+    template_folder="templates",  # 模板目录（相对路径）
+)
 
 
 @bp.route("/login.html")
