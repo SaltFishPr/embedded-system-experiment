@@ -6,6 +6,7 @@
 import os
 from flask import Flask, redirect, url_for
 from wws_and_jl.auth import auth
+from wws_and_jl.collect import collect
 from . import db
 
 print(os.getcwd())
@@ -31,8 +32,11 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    # 初始化数据库
     db.init_app(app)
+    # 注册蓝图
     app.register_blueprint(auth.bp)
+    app.register_blueprint(collect.bp)
 
     # a simple page that says hello
     @app.route("/hello")
@@ -41,7 +45,7 @@ def create_app(test_config=None):
 
     @app.route("/")
     def index():
-        return redirect(url_for("auth.index"))
+        return redirect("/auth/login.html")
 
     # 关联端点名称 'index' 和 URL "/"
     # 这样 url_for('index') 或 url_for('***.index') 都会有效

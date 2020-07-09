@@ -24,30 +24,27 @@ bp = Blueprint(
 )  #  url_prefix 会添加到所有与该蓝图关联的 URL 前面
 
 
-@bp.route('/')
 @bp.route("/login.html")
 def login_page():
     return render_template("login.html")
 
+
 @bp.route("/login", methods=["POST"])
 def login():
     admin_confirm = request.form["admin_confirm"]
-    print(admin_confirm)
-    data = {
-        'flag' : 0  # 0成功，其他失败
-    }
-    return data
-
-@bp.route("/main.html")
-def main_page():
-    return render_template("main.html")
-
+    db = get_db()
+    if admin_confirm == "wws_and_jl":
+        session.clear()
+        session["user_id"] = "admin"  # 存储cookie
+        return {"flag": 0}
+    else:
+        return {"flag": 1}
 
 
 @bp.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for("index"))
+    return redirect("/auth/login.html")
 
 
 def login_required(view):

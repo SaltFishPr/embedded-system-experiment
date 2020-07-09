@@ -16,9 +16,9 @@ from flask import (
     url_for,
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-from auth.auth import login_required
+from wws_and_jl.auth.auth import login_required
 from wws_and_jl.db import get_db
-from camera import Camera
+from wws_and_jl.collect.camera import Camera
 
 bp = Blueprint(
     "collect", __name__, url_prefix="/", template_folder="templates"
@@ -44,3 +44,9 @@ def gen(camera):
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
     return Response(gen(Camera()), mimetype="multipart/x-mixed-replace; boundary=frame")
+
+
+@bp.route("/main.html")
+@login_required
+def main_page():
+    return render_template("main.html")
