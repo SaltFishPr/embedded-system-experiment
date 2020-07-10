@@ -1,6 +1,6 @@
 import time
 import threading
-import picamera
+# import picamera
 import io
 
 try:
