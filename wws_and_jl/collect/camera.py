@@ -1,6 +1,6 @@
 import time
 import threading
-# import picamera
+# import picamera  ## 无树莓派测试时需要将该行注释
 import io
 
 try:

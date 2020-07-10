@@ -10,7 +10,7 @@
   <link href="static/login.css" rel="stylesheet">
   <!-- //todo 配置静态文件 -->
   <script src="https://cdn.staticfile.org/jquery/3.4.0/jquery.min.js"></script>
-  <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<!--  <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>-->
 </head>
 
 <body class="text-center">
@@ -23,10 +23,10 @@
 </body>
 <script>
     $(document).keydown(function (e) {
-        if (e.keyCode == 32) {
+        if (e.keyCode == 32) {  // 键盘空格事件
             return false;
         }
-        if (e.keyCode == 13) {
+        if (e.keyCode == 13) {  // 键盘回车事件
             login()
             return true;
         }
@@ -48,7 +48,7 @@
                 if (data['flag'] == 0) {
                     console.log(data)
                     alert("登录成功")
-                    $.cookie('admin_confirm', admin_confirm)  // TODO: 这里的cookie认证如果比后台cookie认证方便写  可以把auth中的login和logout改一下
+                    // $.cookie('admin_confirm', admin_confirm)  // TODO: 这里的cookie认证如果比后台cookie认证方便写  可以把auth中的login和logout改一下
                     window.location.href = "/main.html"
                 } else {
                     alert("密码错误")
