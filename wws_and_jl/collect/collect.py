@@ -30,11 +30,7 @@ bp = Blueprint(
 )  #  url_prefix 会添加到所有与该蓝图关联的 URL 前面
 
 
-@bp.route("/stream")
-@login_required
-def stream():
-    """Video streaming home page."""
-    return render_template("stream.html")
+
 
 
 def gen(camera):

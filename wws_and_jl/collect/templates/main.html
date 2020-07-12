@@ -1,28 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>主界面</title>
-    <script src="https://cdn.staticfile.org/jquery/3.4.0/jquery.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>主界面</title>
+  <!-- Bootstrap core CSS -->
+  <link href="/static/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      min-height: 75rem;
+      padding-top: 4.5rem;
+    }
+  </style>
+
 </head>
 
 <body>
-    登录到主界面
-    TODO: 显示一个按钮，跳转到记录显示页面
-    <div>
-        <form action="/auth/logout" method="get">
-             <button type="submit">退出</button>
-        </form>
+  <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/main.html">Fixed navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+      aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="nav nav-pills navbar-nav mr-auto" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="pill" href="#home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="pill" href="#menu1">Menu 1</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="pill" href="#menu2">Menu 2</a>
+        </li>
+      </ul>
+      <form class="form-inline mt-2 mt-md-0" action="/auth/logout" method="get">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">安全退出</button>
+      </form>
     </div>
-    <div>
-        <a href="/stream">
-            <button>视频查看</button>
-        </a>
-    </div>
+  </nav>
 
+  <div class="container">
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div id="home" class="container tab-pane active"><br>
+        <h3>HOME</h3>
+        <img src="{{ url_for('collect.video_feed') }}">
+      </div>
+      <div id="menu1" class="container tab-pane fade"><br>
+        <h3>Menu 1</h3>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </p>
+      </div>
+      <div id="menu2" class="container tab-pane fade"><br>
+        <h3>Menu 2</h3>
+        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+          aperiam.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/jquery-3.5.1.min.js"></script>
+  <script src="/static/bootstrap.bundle.min.js"></script>
 </body>
-<script>
 
-</script>
 </html>
