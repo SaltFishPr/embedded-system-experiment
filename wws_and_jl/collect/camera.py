@@ -28,13 +28,13 @@ for picture in os.listdir(picture_dir):
             face_recognition.load_image_file(os.path.join(picture_dir, picture))
         )[0]
     )
-    known_face_names.append(picture)
+    user_id = os.path.splitext(picture)[0]
+    known_face_names.append(user_id)  # TODO: user_id通过查询数据库获取用户姓名显示在图像中
 
 # 初始化一些变量
 face_locations = []
 face_encodings = []
 face_names = []
-process_this_frame = True
 
 
 class CameraEvent(object):
@@ -153,29 +153,26 @@ class Camera(BaseCamera):
                 small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
                 # 将图像从BGR颜色（OpenCV使用的颜色）转换为RGB颜色（face_recognition使用的颜色）
                 rgb_small_frame = small_frame[:, :, ::-1]
-                # Only process every other frame of video to save time
-                if process_this_frame:
-                    # Find all the faces and face encodings in the current frame of video
-                    face_locations = face_recognition.face_locations(rgb_small_frame)
-                    face_encodings = face_recognition.face_encodings(
-                        rgb_small_frame, face_locations
+                # Find all the faces and face encodings in the current frame of video
+                face_locations = face_recognition.face_locations(rgb_small_frame)
+                face_encodings = face_recognition.face_encodings(
+                    rgb_small_frame, face_locations
+                )
+                face_names = []
+                for face_encoding in face_encodings:
+                    # 查看面孔是否与已知面孔相匹配
+                    matches = face_recognition.compare_faces(
+                        known_face_encodings, face_encoding, tolerance=0.6
                     )
-                    face_names = []
-                    for face_encoding in face_encodings:
-                        # 查看面孔是否与已知面孔相匹配
-                        matches = face_recognition.compare_faces(
-                            known_face_encodings, face_encoding, tolerance=0.6
-                        )
-                        name = "Unknown"
-                        # 使用距离新脸最近的已知脸
-                        face_distances = face_recognition.face_distance(
-                            known_face_encodings, face_encoding
-                        )
-                        best_match_index = np.argmin(face_distances)
-                        if matches[best_match_index]:
-                            name = known_face_names[best_match_index]
-                        face_names.append(name)
-                process_this_frame = not process_this_frame
+                    name = "Unknown"
+                    # 使用距离新脸最近的已知脸
+                    face_distances = face_recognition.face_distance(
+                        known_face_encodings, face_encoding
+                    )
+                    best_match_index = numpy.argmin(face_distances)
+                    if matches[best_match_index]:
+                        name = known_face_names[best_match_index]
+                    face_names.append(name)
 
                 for (top, right, bottom, left), name in zip(face_locations, face_names):
                     # Scale back up face locations since the frame we detected in was scaled to 1/4 size
@@ -207,7 +204,6 @@ class Camera(BaseCamera):
                     )
                 # cv2转Image
                 image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-                print(type(image), image)
                 stream.seek(0)
                 image.save(stream, "jpeg")
                 stream.seek(0)
