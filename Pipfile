@@ -1,11 +1,11 @@
 [[source]]
-name = "pypi"
-url = "https://mirrors.aliyun.com/pypi/simple"
+name = "piwheels"
+url = "https://www.piwheels.org/simple"
 verify_ssl = true
 
 [[source]]
-name = "piwheels"
-url = "https://www.piwheels.org/simple"
+name = "pypi"
+url = "https://mirrors.aliyun.com/pypi/simple"
 verify_ssl = true
 
 [dev-packages]
@@ -17,7 +17,10 @@ rope = "*"
 flask = "*"
 picamera = "*"
 pillow = "*"
-opencv-python = "*"
+dlib = "*"
+face-recognition = "*"
+numpy = "*"
+opencv-python-headless = "==4.1.0.25"
 
 [requires]
 python_version = "3.7"
