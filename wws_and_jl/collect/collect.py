@@ -19,7 +19,7 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 from wws_and_jl.auth.auth import login_required
 from wws_and_jl.db import get_db
-from wws_and_jl.collect.camera import Camera, CameraTest
+from wws_and_jl.collect import camera
 
 bp = Blueprint(
     "collect",
@@ -30,21 +30,20 @@ bp = Blueprint(
 )  #  url_prefix 会添加到所有与该蓝图关联的 URL 前面
 
 
-def gen(camera):
+def gen(my_camera):
     """Video streaming generator function."""
     while True:
-        frame = camera.get_frame()
+        frame = my_camera.get_frame()
         yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
 
 
 @bp.route("/video_feed")
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    # return Response(
-    #     gen(CameraTest()), mimetype="multipart/x-mixed-replace; boundary=frame"
-    # )
+    my_camera = camera.Camera()
+    # my_camera = camera.CameraTest()
     return Response(
-        gen(CameraTest()), mimetype="multipart/x-mixed-replace; boundary=frame"
+        gen(my_camera), mimetype="multipart/x-mixed-replace; boundary=frame"
     )
 
 

@@ -9,8 +9,6 @@ from wws_and_jl.auth import auth
 from wws_and_jl.collect import collect
 from . import db
 
-print(os.getcwd())
-
 
 def create_app(test_config=None):
     # create and configure the app
