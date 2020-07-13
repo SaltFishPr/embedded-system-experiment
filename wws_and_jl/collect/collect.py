@@ -30,9 +30,6 @@ bp = Blueprint(
 )  #  url_prefix 会添加到所有与该蓝图关联的 URL 前面
 
 
-
-
-
 def gen(camera):
     """Video streaming generator function."""
     while True:
@@ -43,10 +40,12 @@ def gen(camera):
 @bp.route("/video_feed")
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(CameraTest()), mimetype="multipart/x-mixed-replace; boundary=frame")
     # return Response(
     #     gen(CameraTest()), mimetype="multipart/x-mixed-replace; boundary=frame"
     # )
+    return Response(
+        gen(Camera()), mimetype="multipart/x-mixed-replace; boundary=frame"
+    )
 
 
 @bp.route("/main.html")
