@@ -1,8 +1,8 @@
 import io
 import time
 import threading
-from PIL import Image
-import picamera  ## 无树莓派测试时需要将该行注释
+# from PIL import Image
+# import picamera  ## 无树莓派测试时需要将该行注释
 
 try:
     from greenlet import getcurrent as get_ident
@@ -94,7 +94,7 @@ class BaseCamera(object):
     def _thread(cls):
         """Camera background thread."""
         print("Starting camera thread.")
-        frames_iterator = cls.frames()
+        frames_iterator= cls.frames()
         for frame in frames_iterator:
             BaseCamera.frame = frame
             BaseCamera.event.set()  # send signal to clients

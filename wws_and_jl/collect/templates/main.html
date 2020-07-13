@@ -37,14 +37,14 @@
             </li>
         </ul>
         <div class="form-inline mt-2 mt-md-0">
-            <input class="form-control mr-md-2" type="text" placeholder="Search" aria-label="Search"
+            <input id='user_search_input' class="form-control mr-md-2" type="text" placeholder="Search" aria-label="Search"
                    list="search_list">
             <datalist id="search_list">
                 <option value="Mark">
                 <option value="Jacob">
                 <option value="Larry">
             </datalist>
-            <button class="btn btn-outline-success my-2 my-md-0">搜索</button>
+            <button class="btn btn-outline-success my-2 my-md-0" onclick="user_search()">搜索</button>
         </div>
         <form class="form-inline mt-2 mt-md-0" action="/auth/logout" method="get">
             <button class="btn btn-outline-secondary my-2 ml-md-2" type="submit">安全退出</button>
@@ -60,15 +60,16 @@
             <img src="/video_feed">
         </div>
         <div id="manage" class="container tab-pane fade"><br>
-            <div class="card flex-row mb-4 shadow-sm h-md-250">
+            <div id="user_card" class="card flex-row mb-4 shadow-sm h-md-250" style="display: none">
                 <div class="card-body d-flex flex-column align-items-start">
                     <div id='user_name' class="text-primary">姓名</div>
                     <div id='user_tel'>电话号码</div>
-                    <div id="'user_address">住址</div>
+                    <div id='user_address'>住址</div>
                     <div class="btn-group mt-auto">
                         <button type="button" class="btn btn-sm btn-outline-secondary"
                                 data-toggle="modal" data-target="#editModal">编辑</button>
                         <button type="button" class="btn btn-sm btn-outline-secondary">注销</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="dis_select()">关闭</button>
                     </div>
                 </div>
                 <div>
@@ -76,7 +77,7 @@
                 </div>
 
             </div>
-            <table class="table table-bordered">
+            <table id='user_table' class="table table-bordered">
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
@@ -89,20 +90,20 @@
                 <tr>
                     <th scope="row">1</th>
                     <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td>110</td>
+                    <td>武汉</td>
                 </tr>
                 <tr>
                     <th scope="row">2</th>
                     <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
+                    <td>111</td>
+                    <td>耒阳</td>
                 </tr>
                 <tr>
                     <th scope="row">3</th>
                     <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
+                    <td>120</td>
+                    <td>上海</td>
                 </tr>
                 </tbody>
             </table>
@@ -132,8 +133,7 @@
                             <div class="form-group row">
                                 <label for="user_address_input" class="col-sm-2 col-form-label">住址</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="user_address_input"
-                                           placeholder="Address">
+                                    <input type="text" class="form-control" id="user_address_input" placeholder="Address">
                                 </div>
                             </div>
                         </div>
@@ -158,16 +158,74 @@
 <script src="/static/bootstrap.bundle.min.js"></script>
 </body>
 <script>
+    current_tr = ''
+    current_name = ''
+
     function test() {
         let name,tel,address
         name = $('#user_name_input').val()
         tel = $('#user_tel_input').val()
         address = $('#user_address_input').val()
+        console.log(address)
         $('#user_name').html(name)
         $('#user_tel').html(tel)
         $('#user_address').html(address)
         console.log('name:'+ name +' '+ 'tel:'+ tel +' '+ 'address:' +address)
     }
+
+    $('tbody tr').click(e => tr_select(e.currentTarget))
+
+    function tr_select(selected) {
+        console.log(selected)
+        if(current_tr === ''){
+            current_tr = selected
+            current_name = $(this).find('td').eq(0).html()
+        }else if(current_tr === this){
+            return
+        }else {
+            $(current_tr).removeClass('bg-secondary')
+            current_tr = selected
+            current_name = $(selected).find('td').eq(0).html()
+        }
+        let name,tel,address
+        name = $(selected).find('td').eq(0).html()
+        tel = $(selected).find('td').eq(1).html()
+        address = $(selected).find('td').eq(2).html()
+        console.log(address)
+        $(selected).addClass('bg-secondary')
+        $('#user_name').html(name)
+        $('#user_tel').html(tel)
+        $('#user_address').html(address)
+        $('#user_card').show()
+    }
+
+    function dis_select() {
+        $(current_tr).removeClass('bg-secondary')
+        current_tr = ''
+        current_name = ''
+        $('#user_name').html('')
+        $('#user_tel').html('')
+        $('#user_address').html('')
+        $('#user_card').hide()
+    }
+
+    function user_search(){
+        let name
+        name = $('#user_search_input').val()
+        if(name === '' || name === current_name){
+            return
+        }
+        let arr = $('tbody').find('tr')
+        let i = 0
+        while (i<arr.length){
+            if(name === arr.eq(i).find('td').eq(0).html()){
+                tr_select(arr[i])
+                return
+            }
+            i++
+        }
+    }
+
 </script>
 
 </html>

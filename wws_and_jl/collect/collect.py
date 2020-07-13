@@ -44,7 +44,7 @@ def video_feed():
     #     gen(CameraTest()), mimetype="multipart/x-mixed-replace; boundary=frame"
     # )
     return Response(
-        gen(Camera()), mimetype="multipart/x-mixed-replace; boundary=frame"
+        gen(CameraTest()), mimetype="multipart/x-mixed-replace; boundary=frame"
     )
 
 
