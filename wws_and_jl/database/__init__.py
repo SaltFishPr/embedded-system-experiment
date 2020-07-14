@@ -22,9 +22,8 @@ from wws_and_jl.auth import login_required
 from wws_and_jl.db import get_db
 
 bp = Blueprint("data", __name__, url_prefix="/data")
-picture_dir = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "collect/pictures"
-)
+collect_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "collect")
+picture_dir = os.path.join(collect_dir, "pictures") + "/"
 
 
 def execute_sql(sql, choice):
@@ -43,7 +42,6 @@ def execute_sql(sql, choice):
     else:
         my_db.commit()
     my_cursor.close()
-    my_db.close()
     return results
 
 
@@ -119,7 +117,7 @@ def get_user_list():
     i = 0
     for result in results:
         user_list.append(
-            {"user_name": result[1], "user_tel": result[2], "user_address": result[3],}
+            {"user_name": result[0], "user_tel": result[1], "user_address": result[2],}
         )
     return {"user_list": user_list}
 
@@ -132,7 +130,7 @@ def add_user():
     address = request.form["user_address"]
     sql = "SELECT * FROM user WHERE username = '%s'" % name
     results = execute_sql(sql, "select")
-    if results is not None:
+    if results != []:
         return {"flag": 1}
 
     pic = request.files["user_img"]
@@ -156,7 +154,7 @@ def update_user():
     if name != "":
         sql = "SELECT * FROM user WHERE username = '%s'" % name
         results = execute_sql(sql, "select")
-        if results is not None:
+        if results != []:
             return {"flag": 1}
 
     if pic != "":
@@ -197,5 +195,5 @@ def delete_user():
 @bp.route("/picture/<username>")
 @login_required
 def get_user_picture(username: str):
-    image = file(picture_dir + username + ".jpeg")
+    image = open(picture_dir + username + ".jpeg", "rb")
     return Response(image, mimetype="image/jpeg")
