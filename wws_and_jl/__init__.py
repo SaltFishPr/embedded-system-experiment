@@ -33,6 +33,7 @@ def create_app(test_config=None):
 
     # 初始化数据库
     db.init_app(app)
+
     # 注册蓝图
     app.register_blueprint(auth.bp)
     app.register_blueprint(collect.bp)

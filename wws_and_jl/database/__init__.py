@@ -20,7 +20,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from wws_and_jl.auth import login_required
 from wws_and_jl.db import get_db
 
-bp = Blueprint("database", __name__, url_prefix="/data")
+bp = Blueprint("data", __name__, url_prefix="/data")
 
 
 def execute_sql(sql, choice):
@@ -104,57 +104,60 @@ def execute_sql(sql, choice):
 #     results = execute_sql(sql, "select")
 #     return results
 
+
 @bp.route("/get_user_list", methods=["POST"])
 @login_required
 def get_user_list():
     print(123)
     sql = "SELECT * FROM user"
-    results = execute_sql(sql, 'select')
-    data = {
-        'user_list': results
-    }
+    results = execute_sql(sql, "select")
+    data = {"user_list": results}
     return data
+
 
 @bp.route("/add_user", methods=["POST"])
 @login_required
 def add_user():
-    name = request.form['user_name']
-    tel = request.form['user_tel']
-    address = request.form['user_address']
-    pic = request.files['user_img']
-    pic.save('../collect/pictures/' + name + '.jpeg')
+    name = request.form["user_name"]
+    tel = request.form["user_tel"]
+    address = request.form["user_address"]
+    pic = request.files["user_img"]
+    pic.save("../collect/pictures/" + name + ".jpeg")
     sql = (
         "INSERT INTO user (username,phone_number,residence) VALUES ('%s','%s','%s')"
         % (name, tel, address)
     )
-    execute_sql(sql, 'insert')
-    return {
-        'flag': 0
-    }
+    execute_sql(sql, "insert")
+    return {"flag": 0}
 
-@bp.route("/get_user_list", methods=["POST"])
+
+@bp.route("/update_user", methods=["POST"])
 @login_required
-def get_user_list():
-    raw_name = request.form['raw_user_name']
-    name = request.form['user_name']
-    tel = request.form['user_tel']
-    address = request.form['user_address']
-    pic = request.files['user_img']
-    if(pic != ''):
-        pic.save('../collect/pictures/' + raw_name + '.jpeg')
-    if(address != ''):
-        sql = ("UPDATE user SET residence = '%s' WHERE username = '%s'"
-        %(address,raw_name))
-        execute_sql(sql,'update')
-    if(tel != ''):
-        sql = ("UPDATE user SET phone_number = '%s' WHERE username = '%s'"
-        %(tel,raw_name))
-        execute_sql(sql, 'update')
-    if(name != ''):
-        sql = ("UPDATE user SET username = '%s' WHERE username = '%s'"
-        %(name,raw_name))
-        execute_sql(sql, 'update')
-        os.rename('../collect/pictures/' + raw_name + '.jpeg','../collect/pictures/' + name + '.jpeg')
-    return {
-        'flag': 0
-    }
+def update_user():
+    raw_name = request.form["raw_user_name"]
+    name = request.form["user_name"]
+    tel = request.form["user_tel"]
+    address = request.form["user_address"]
+    pic = request.files["user_img"]
+    if pic != "":
+        pic.save("../collect/pictures/" + raw_name + ".jpeg")
+    if address != "":
+        sql = "UPDATE user SET residence = '%s' WHERE username = '%s'" % (
+            address,
+            raw_name,
+        )
+        execute_sql(sql, "update")
+    if tel != "":
+        sql = "UPDATE user SET phone_number = '%s' WHERE username = '%s'" % (
+            tel,
+            raw_name,
+        )
+        execute_sql(sql, "update")
+    if name != "":
+        sql = "UPDATE user SET username = '%s' WHERE username = '%s'" % (name, raw_name)
+        execute_sql(sql, "update")
+        os.rename(
+            "../collect/pictures/" + raw_name + ".jpeg",
+            "../collect/pictures/" + name + ".jpeg",
+        )
+    return {"flag": 0}
