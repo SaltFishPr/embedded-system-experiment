@@ -3,8 +3,6 @@
 # @author: SaltFish
 # @file: collection.py
 # @date: 2020/07/08
-import functools
-
 from flask import (
     Blueprint,
     flash,
@@ -38,6 +36,7 @@ def gen(my_camera):
 
 
 @bp.route("/video_feed")
+@login_required
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
     my_camera = camera.Camera()

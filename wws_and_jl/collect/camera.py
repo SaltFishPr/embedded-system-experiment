@@ -1,3 +1,8 @@
+# !/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# @author: SaltFish
+# @file: camera.py
+# @date: 2020/07/08
 import io
 import os
 import time
@@ -118,7 +123,7 @@ class BaseCamera(object):
     def _thread(cls):
         """Camera background thread."""
         print("Starting camera thread.")
-        frames_iterator= cls.frames()
+        frames_iterator = cls.frames()
         for frame in frames_iterator:
             BaseCamera.frame = frame
             BaseCamera.event.set()  # send signal to clients
