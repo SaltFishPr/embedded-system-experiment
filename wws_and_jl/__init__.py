@@ -5,8 +5,8 @@
 # @date: 2020/07/02
 import os
 from flask import Flask, redirect, url_for
-from wws_and_jl.auth import auth
-from wws_and_jl.collect import collect
+from wws_and_jl import auth
+from wws_and_jl import collect
 from . import db
 
 

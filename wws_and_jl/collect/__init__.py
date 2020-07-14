@@ -15,7 +15,7 @@ from flask import (
     Response,
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-from wws_and_jl.auth.auth import login_required
+from wws_and_jl.auth import login_required
 from wws_and_jl.db import get_db
 from wws_and_jl.collect import camera
 
