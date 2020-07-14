@@ -1,7 +1,7 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # @author: SaltFish
-# @file: collection.py
+# @file: __init__.py
 # @date: 2020/07/08
 from flask import (
     Blueprint,
@@ -25,7 +25,7 @@ bp = Blueprint(
     url_prefix="/",
     static_folder="static",
     template_folder="templates",
-)  #  url_prefix 会添加到所有与该蓝图关联的 URL 前面
+)
 
 
 def gen(my_camera):

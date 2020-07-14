@@ -7,7 +7,8 @@ import os
 from flask import Flask, redirect, url_for
 from wws_and_jl import auth
 from wws_and_jl import collect
-from . import db
+from wws_and_jl import database
+from wws_and_jl import db
 
 
 def create_app(test_config=None):
@@ -35,6 +36,7 @@ def create_app(test_config=None):
     # 注册蓝图
     app.register_blueprint(auth.bp)
     app.register_blueprint(collect.bp)
+    app.register_blueprint(database.bp)
 
     # a simple page that says hello
     @app.route("/hello")

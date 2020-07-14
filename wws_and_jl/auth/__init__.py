@@ -1,7 +1,7 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # @author: SaltFish
-# @file: auth.py
+# @file: __init__.py
 # @date: 2020/07/04
 import functools
 
