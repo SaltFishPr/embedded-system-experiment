@@ -41,3 +41,71 @@ def init_db_command():
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+
+
+def execute_sql(sql, choice):
+    """
+    执行sql语句
+    :param sql:
+    :param choice: 'select'， 'update', 'insert', 'delete'
+    :return:
+    """
+    my_db = get_db()
+    my_cursor = my_db.cursor()
+    my_cursor.execute(sql)
+    results = []
+    if choice == "select":
+        results = my_cursor.fetchall()
+    else:
+        my_db.commit()
+    my_cursor.close()
+    my_db.close()
+    return results
+
+
+def get_user_id(**kwargs):
+    sql_temp = ""
+    for key, value in kwargs:
+        sql_temp += f" {key} = '{value}' AND"
+    sql_temp = sql_temp[:-3]
+    sql = "SELECT id FROM user Where" + sql_temp
+    return results
+
+
+def get_username(user_id: int):
+    sql = "SELECT username FROM user WHERE id = %d " % user_id
+    results = execute_sql(sql, "select")
+    return results
+
+
+def get_user_info(user_id: int):
+    sql = "SELECT * FROM user WHERE id = %d " % user_id
+    results = execute_sql(sql, "select")
+    return results
+
+
+def add_user(username: str, phone_number: str, residence: str):
+    sql = (
+        "INSERT INTO user (username,phone_number,residence) VALUES ('%s','%s','%s')"
+        % (username, phone_number, residence)
+    )
+    execute_sql(sql, "insert")
+
+
+def remove_user(user_id: int):
+    sql = "DELETE FROM user WHERE account = '%s'" % account
+    execute_sql(sql, "delete")
+
+
+def update_user(user_id: int, username: str, phone_number: str, residence: str):
+    sql = (
+        "UPDATE user SET username = '%s', phone_number = '%s', residence = '%s'  Where id = %d"
+        % (username, phone_number, residence, user_id)
+    )
+    execute_sql(sql, "update")
+
+
+def get_record(user_id: int):
+    sql = "SELECT * FROM record WHERE user_id = %d " % user_id
+    results = execute_sql(sql, "select")
+    return results
