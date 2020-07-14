@@ -39,8 +39,8 @@ def gen(my_camera):
 @login_required
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    my_camera = camera.Camera()
-    # my_camera = camera.CameraTest()
+    # my_camera = camera.Camera()
+    my_camera = camera.CameraTest()
     return Response(
         gen(my_camera), mimetype="multipart/x-mixed-replace; boundary=frame"
     )

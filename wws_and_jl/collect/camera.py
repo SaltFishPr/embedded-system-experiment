@@ -7,11 +7,11 @@ import io
 import os
 import time
 import threading
-from PIL import Image
+# from PIL import Image
 import numpy
 import cv2
-import face_recognition
-import picamera  ## 无树莓派测试时需要将该行注释
+# import face_recognition
+# import picamera  ## 无树莓派测试时需要将该行注释
 
 try:
     from greenlet import getcurrent as get_ident
@@ -29,15 +29,15 @@ picture_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pictures
 known_face_encodings = []
 known_face_names = []
 # 加载样本图片并学习如何识别它
-for picture in os.listdir(picture_dir):
-    known_face_encodings.append(
-        face_recognition.face_encodings(
-            face_recognition.load_image_file(os.path.join(picture_dir, picture))
-        )[0]
-    )
-    user_id = int(os.path.splitext(picture)[0])
-    username = database.get_username(user_id)
-    known_face_names.append(username)
+# for picture in os.listdir(picture_dir):
+#     known_face_encodings.append(
+#         face_recognition.face_encodings(
+#             face_recognition.load_image_file(os.path.join(picture_dir, picture))
+#         )[0]
+#     )
+#     user_id = int(os.path.splitext(picture)[0])
+#     username = database.get_username(user_id)
+#     known_face_names.append(username)
 
 # 初始化一些变量
 face_locations = []
@@ -238,5 +238,5 @@ class CameraTest(BaseCamera):
     def frames():
         while True:
             time.sleep(1)
-            print(type(CameraTest.imgs[0]), CameraTest.imgs[0])
+            # print(type(CameraTest.imgs[0]), CameraTest.imgs[0])
             yield CameraTest.imgs[int(time.time()) % 3]
