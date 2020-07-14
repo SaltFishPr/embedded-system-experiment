@@ -3,6 +3,7 @@
 # @author: SaltFish
 # @file: __init__.py
 # @date: 2020/07/14
+import json
 import os
 
 from flask import (
@@ -108,11 +109,20 @@ def execute_sql(sql, choice):
 @bp.route("/get_user_list", methods=["POST"])
 @login_required
 def get_user_list():
-    print(123)
     sql = "SELECT * FROM user"
     results = execute_sql(sql, "select")
-    data = {"user_list": results}
-    return data
+
+    user_list = []
+    i = 0
+    for result in results:
+        user_list.append({
+            'user_name': result[1],
+            'user_tel': result[2],
+            'user_address': result[3],
+        })
+    return {
+        'user_list': user_list
+    }
 
 
 @bp.route("/add_user", methods=["POST"])
@@ -121,11 +131,16 @@ def add_user():
     name = request.form["user_name"]
     tel = request.form["user_tel"]
     address = request.form["user_address"]
+    sql = "SELECT * FROM user WHERE username = '%s'" % name
+    results = execute_sql(sql, 'select')
+    if results is not None:
+        return {'flag': 1}
+
     pic = request.files["user_img"]
-    pic.save("../collect/pictures/" + name + ".jpeg")
+    pic.save("wws_and_jl/static/pictures/" + name + ".jpeg")
     sql = (
-        "INSERT INTO user (username,phone_number,residence) VALUES ('%s','%s','%s')"
-        % (name, tel, address)
+            "INSERT INTO user (username,phone_number,residence) VALUES ('%s','%s','%s')"
+            % (name, tel, address)
     )
     execute_sql(sql, "insert")
     return {"flag": 0}
@@ -138,9 +153,16 @@ def update_user():
     name = request.form["user_name"]
     tel = request.form["user_tel"]
     address = request.form["user_address"]
-    pic = request.files["user_img"]
+    pic = request.form["file_flag"]
+    if name != '':
+        sql = "SELECT * FROM user WHERE username = '%s'" % name
+        results = execute_sql(sql, 'select')
+        if results is not None:
+            return {'flag': 1}
+
     if pic != "":
-        pic.save("../collect/pictures/" + raw_name + ".jpeg")
+        pic = request.files["user_img"]
+        pic.save("wws_and_jl/static/pictures/" + raw_name + ".jpeg")
     if address != "":
         sql = "UPDATE user SET residence = '%s' WHERE username = '%s'" % (
             address,
@@ -157,7 +179,17 @@ def update_user():
         sql = "UPDATE user SET username = '%s' WHERE username = '%s'" % (name, raw_name)
         execute_sql(sql, "update")
         os.rename(
-            "../collect/pictures/" + raw_name + ".jpeg",
-            "../collect/pictures/" + name + ".jpeg",
+            "wws_and_jl/static/pictures/" + raw_name + ".jpeg",
+            "wws_and_jl/static/pictures/" + name + ".jpeg",
         )
+    return {"flag": 0}
+
+
+@bp.route("/delete_user", methods=["POST"])
+@login_required
+def delete_user():
+    name = request.form['user_name']
+    sql = "DELETE FROM user WHERE username = '%s'" % name
+    execute_sql(sql, "update")
+    os.rename("wws_and_jl/static/pictures/" + name + ".jpeg")
     return {"flag": 0}

@@ -30,7 +30,7 @@
                 <a class="nav-link active" data-toggle="pill" href="#camera">摄像头</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#manage">用户管理</a>
+                <a class="nav-link" data-toggle="pill" href="#manage" onclick="get_user_list()">用户管理</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="pill" href="#log">系统日志</a>
@@ -87,40 +87,39 @@
             <div id="user_card_edit" class="card flex-column flex-md-row mb-4 shadow-sm h-md-250" style="display: none">
                 <div class="card-body d-flex flex-column col-md-8">
 
-                        <div class="form-group row">
-                            <label for="user_name_edit" class="col-sm-2 col-form-label">姓名</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control"  id="user_name_edit" placeholder="Name">
-                            </div>
+                    <div class="form-group row">
+                        <label for="user_name_edit" class="col-sm-2 col-form-label">姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="user_name_edit" placeholder="Name">
                         </div>
-                        <div class="form-group row">
-                            <label for="user_tel_edit" class="col-sm-2 col-form-label">电话</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control"  id="user_tel_edit" placeholder="tel">
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user_tel_edit" class="col-sm-2 col-form-label">电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="user_tel_edit" placeholder="tel">
                         </div>
-                        <div class="form-group row">
-                            <label for="user_address_edit" class="col-sm-2 col-form-label">住址</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control"  id="user_address_edit" placeholder="Address">
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user_address_edit" class="col-sm-2 col-form-label">住址</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="user_address_edit" placeholder="Address">
                         </div>
-                        <div class="form-group row">
-                            <label for="user_img_edit" class="col-sm-2 col-form-label">头像</label>
-                            <div class="col-sm-10">
-                                <input type="file" accept="image/jpeg,image/png" class="form-control-file"
-                                        id="user_img_edit">
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user_img_edit" class="col-sm-2 col-form-label">头像</label>
+                        <div class="col-sm-10">
+                            <input type="file" accept="image/jpeg,image/png" class="form-control-file"
+                                   id="user_img_edit">
                         </div>
-
+                    </div>
 
 
                     <div class="btn-group mt-auto">
-                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="get_user_list()">test
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="update_user()">保存修改
                         </button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">保存修改</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="add_user()">注册为新用户</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">注销该用户</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="add_user()">注册为新用户
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="delete_user()">注销该用户</button>
                         <button type="button" class="btn btn-sm btn-outline-secondary" onclick="dis_select()">关闭该面板
                         </button>
                     </div>
@@ -143,25 +142,25 @@
                     <th scope="col">住址</th>
                 </tr>
                 </thead>
-                <tbody id="user_list">
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>110</td>
-                    <td>武汉</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>111</td>
-                    <td>耒阳</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>120</td>
-                    <td>上海</td>
-                </tr>
+                <tbody id="user_list" title="点击进行编辑">
+                <!--                <tr>-->
+                <!--                    <th scope="row">1</th>-->
+                <!--                    <td>Mark</td>-->
+                <!--                    <td>110</td>-->
+                <!--                    <td>武汉</td>-->
+                <!--                </tr>-->
+                <!--                <tr>-->
+                <!--                    <th scope="row">2</th>-->
+                <!--                    <td>Jacob</td>-->
+                <!--                    <td>111</td>-->
+                <!--                    <td>耒阳</td>-->
+                <!--                </tr>-->
+                <!--                <tr>-->
+                <!--                    <th scope="row">3</th>-->
+                <!--                    <td>Larry</td>-->
+                <!--                    <td>120</td>-->
+                <!--                    <td>上海</td>-->
+                <!--                </tr>-->
                 </tbody>
             </table>
 
@@ -265,6 +264,7 @@
         $('#user_name_edit').val(name)
         $('#user_tel_edit').val(tel)
         $('#user_address_edit').val(address)
+        $('#user_img_update').attr('src', '/static/pictures/' + name + '.jpeg')
         $('#user_card_edit').show()
     }
 
@@ -296,6 +296,7 @@
     }
 
     function get_user_list() {
+        $('#user_table').show()
         $.ajax({
             type: 'POST',
             url: '/data/get_user_list',
@@ -306,15 +307,15 @@
                     $('#user_card_edit').show()
                     return
                 }
+                str = ''
                 for (let i = 0; i < user_list.length; i++) {
                     let name = '', tel = '', address = ''
                     name = user_list[i]['user_name']
                     tel = user_list[i]['user_tel']
                     address = user_list[i]['user_address']
-                    str += `<tr><th scope="row">${i}</th><td>${name}</td><td>${tel}</td><td>${address}</td></tr>`
-                    $('#user_list').html('')
-                    $('#user_list').html(str)
+                    str += `<tr onclick="tr_select(this)"><th scope="row">${i}</th><td>${name}</td><td>${tel}</td><td>${address}</td></tr>`
                 }
+                $('#user_list').html(str)
             }
         })
     }
@@ -322,95 +323,126 @@
     function add_user() {
         console.log($('#user_img_edit')[0].files[0])
         console.log($('#myForm').serialize())
-        let name,tel,address
+        let name, tel, address
         name = $('#user_name_edit').val().trim()
         tel = $('#user_tel_edit').val().trim()
         address = $('#user_address_edit').val().trim()
-        if(name === ''){
+        if (name === '') {
             alert('请填写姓名')
             return
         }
-        if(tel === ''){
+        if (tel === '') {
             alert('请填写电话')
             return
         }
-        if(address === ''){
+        if (address === '') {
             alert('请填写住址')
             return
         }
-        if($('#user_img_edit').val() === ''){
+        if ($('#user_img_edit').val() === '') {
             alert('请添加头像')
             return
         }
         let formData = new FormData()
-        formData.append('user_name',name)
-        formData.append('user_tel',tel)
-        formData.append('user_address',address)
-        formData.append('user_img',$('#user_img_edit')[0].files[0])
+        formData.append('user_name', name)
+        formData.append('user_tel', tel)
+        formData.append('user_address', address)
+        formData.append('user_img', $('#user_img_edit')[0].files[0])
         $.ajax({
             type: 'POST',
             url: '/data/add_user',
             data: formData,
+            contentType: false,
             processData: false,
             success: rep_data => {
-                if (data['flag'] == 0) {
-                    alert('更新成功')
+                if (rep_data['flag'] == 0) {
+                    alert('注册成功')
+                    get_user_list()
                 } else {
-                    alert("注册用户失败")
+                    alert("失败")
                 }
             }
         })
     }
 
     function update_user() {
-        let raw_name,raw_tel,raw_address
-        let name,tel,address,pic
+        let raw_name, raw_tel, raw_address
+        let name, tel, address, pic
         raw_name = $(current_tr).find('td').eq(0).html()
         raw_tel = $(current_tr).find('td').eq(1).html()
         raw_address = $(current_tr).find('td').eq(2).html()
         name = $('#user_name_edit').val().trim()
         tel = $('#user_tel_edit').val().trim()
         address = $('#user_address_edit').val().trim()
-        if(raw_name === name){
+        if (raw_name === name) {
             name = ''
         }
-        if(raw_tel === tel){
+        if (raw_tel === tel) {
             tel = ''
         }
-        if(raw_address === address){
+        if (raw_address === address) {
             address = ''
         }
-        if($('#user_img_edit').val() === ''){
+        if ($('#user_img_edit').val() === '') {
             pic = ''
         }
-        if(name === '' && tel === '' && address === '' && pic === ''){
+        if (name === '' && tel === '' && address === '' && pic === '') {
             alert('请先进行修改')
             return
         }
         let formData = new FormData()
-        formData.append('raw_user_name',raw_name)
-        formData.append('user_name',name)
-        formData.append('user_tel',tel)
-        formData.append('user_address',address)
-        if(pic !== ''){
-            formData.append('user_img',$('#user_img_edit')[0].files[0])
+        formData.append('raw_user_name', raw_name)
+        formData.append('user_name', name)
+        formData.append('user_tel', tel)
+        formData.append('user_address', address)
+        if (pic !== '') {
+            formData.append('file_flag', 1)
+            formData.append('user_img', $('#user_img_edit')[0].files[0])
+        } else {
+            formData.append('file_flag', pic)
         }
         $.ajax({
             type: 'POST',
             url: '/data/update_user',
             data: formData,
+            contentType: false,
             processData: false,
             success: rep_data => {
-                if (data['flag'] == 0) {
+                if (rep_data['flag'] == 0) {
                     alert('更新成功')
 
+                    get_user_list()
+
                 } else {
-                    alert("注册用户失败")
+                    alert("失败")
                 }
             }
         })
+    }
 
+    function delete_user() {
+        let name = $('#user_name_edit').val().trim()
+        if (name === '') {
+            alert('请输入用户姓名')
+            return
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/data/delete_user',
+            data: {
+                user_name: name
+            },
+            success: rep_data => {
+                if (rep_data['flag'] == 0) {
+                    alert('注销用户成功')
 
+                    get_user_list()
+                    dis_select()
+                } else {
+                    alert("失败")
+                }
+            }
+        })
     }
 
 </script>
