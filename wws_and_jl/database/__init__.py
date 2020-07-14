@@ -41,7 +41,7 @@ def execute_sql(sql, choice):
     return results
 
 
-@bp.route("/get_user_id")  # url: /data/get_user_id
+@bp.route("/get_user_id", methods=["POST"])  # url: /data/get_user_id
 @login_required
 def get_user_id(**kwargs):
     sql_temp = ""
@@ -52,7 +52,7 @@ def get_user_id(**kwargs):
     return results
 
 
-@bp.route("/get_username")
+@bp.route("/get_username", methods=["POST"])
 @login_required
 def get_username(user_id: int):
     sql = "SELECT username FROM user WHERE id = %d " % user_id
@@ -60,7 +60,7 @@ def get_username(user_id: int):
     return results
 
 
-@bp.route("/get_user_info")
+@bp.route("/get_user_info", methods=["POST"])
 @login_required
 def get_user_info(user_id: int):
     sql = "SELECT * FROM user WHERE id = %d " % user_id
@@ -68,7 +68,7 @@ def get_user_info(user_id: int):
     return results
 
 
-@bp.route("/add_user")
+@bp.route("/add_user", methods=["POST"])
 @login_required
 def add_user(username: str, phone_number: str, residence: str):
     sql = (
@@ -78,14 +78,14 @@ def add_user(username: str, phone_number: str, residence: str):
     execute_sql(sql, "insert")
 
 
-@bp.route("/remove_user")
+@bp.route("/remove_user", methods=["POST"])
 @login_required
 def remove_user(user_id: int):
     sql = "DELETE FROM user WHERE account = '%s'" % account
     execute_sql(sql, "delete")
 
 
-@bp.route("/update_user")
+@bp.route("/update_user", methods=["POST"])
 @login_required
 def update_user(user_id: int, username: str, phone_number: str, residence: str):
     sql = (
@@ -95,7 +95,7 @@ def update_user(user_id: int, username: str, phone_number: str, residence: str):
     execute_sql(sql, "update")
 
 
-@bp.route("/get_record")
+@bp.route("/get_record", methods=["POST"])
 @login_required
 def get_record(user_id: int):
     sql = "SELECT * FROM record WHERE user_id = %d " % user_id

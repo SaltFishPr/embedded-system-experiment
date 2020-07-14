@@ -21,6 +21,8 @@ except ImportError:
     except ImportError:
         from _thread import get_ident
 
+from wws_and_jl import database
+
 # 照片路径
 picture_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pictures")
 # 创建已知面部编码及其名称的数组
@@ -33,8 +35,9 @@ for picture in os.listdir(picture_dir):
             face_recognition.load_image_file(os.path.join(picture_dir, picture))
         )[0]
     )
-    user_id = os.path.splitext(picture)[0]
-    known_face_names.append(user_id)  # TODO: user_id通过查询数据库获取用户姓名显示在图像中
+    user_id = int(os.path.splitext(picture)[0])
+    username = database.get_username(user_id)
+    known_face_names.append(username)
 
 # 初始化一些变量
 face_locations = []
