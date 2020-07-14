@@ -18,201 +18,202 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="/main.html">门禁系统</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="/main.html">门禁系统</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="nav nav-pills navbar-nav mr-auto" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="pill" href="#camera">摄像头</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#manage" onclick="get_user_list()">用户管理</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#log">系统日志</a>
-            </li>
-        </ul>
-        <div class="form-inline mt-2 mt-md-0">
-            <input id='user_search_input' class="form-control mr-md-2" type="text" placeholder="Search"
-                   aria-label="Search"
-                   list="search_list">
-            <datalist id="search_list">
-                <option value="Mark">
-                <option value="Jacob">
-                <option value="Larry">
-            </datalist>
-            <button class="btn btn-outline-success my-2 my-md-0" onclick="user_search()">搜索</button>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="nav nav-pills navbar-nav mr-auto" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="pill" href="#camera">摄像头</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#manage" onclick="get_user_list()">用户管理</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#log">系统日志</a>
+                </li>
+            </ul>
+            <div class="form-inline mt-2 mt-md-0">
+                <input id='user_search_input' class="form-control mr-md-2" type="text" placeholder="Search"
+                    aria-label="Search" list="search_list">
+                <datalist id="search_list">
+                    <option value="Mark">
+                    <option value="Jacob">
+                    <option value="Larry">
+                </datalist>
+                <button class="btn btn-outline-success my-2 my-md-0" onclick="user_search()">搜索</button>
+            </div>
+            <form class="form-inline mt-2 mt-md-0" action="/auth/logout" method="get">
+                <button class="btn btn-outline-secondary my-2 ml-md-2" type="submit">安全退出</button>
+            </form>
         </div>
-        <form class="form-inline mt-2 mt-md-0" action="/auth/logout" method="get">
-            <button class="btn btn-outline-secondary my-2 ml-md-2" type="submit">安全退出</button>
-        </form>
-    </div>
-</nav>
+    </nav>
 
-<div class="container">
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div id="camera" class="container tab-pane active"><br>
-            <h3>HOME</h3>
-            <img src="/video_feed">
-        </div>
-        <div id="manage" class="container tab-pane fade"><br>
-            <!--            <div id="user_card" class="card flex-row mb-4 shadow-sm h-md-250" style="display: none">-->
-            <!--                <div class="card-body d-flex flex-column col-8">-->
-            <!--                    <div id='user_name' class="text-primary">姓名</div>-->
-            <!--                    <div id='user_tel'>电话号码</div>-->
-            <!--                    <div id='user_address'>住址</div>-->
-            <!--                    <div class="btn-group mt-auto">-->
-            <!--                        <button type="button" class="btn btn-sm btn-outline-secondary"-->
-            <!--                                data-toggle="modal" data-target="#editModal">编辑-->
-            <!--                        </button>-->
-            <!--                        <button type="button" class="btn btn-sm btn-outline-secondary">注销</button>-->
-            <!--                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="dis_select()">关闭-->
-            <!--                        </button>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--                <div class="card-body d-flex flex-row col-md-4">-->
-            <!--                    <div class="flex-column col-3 col-md-2"></div>-->
-            <!--                    <div >-->
-            <!--                       <img id='user_img' src="/static/imgTest.jpg" class="w-100 h-auto" title="头像">-->
-            <!--                    </div>-->
-            <!--                    <div class="flex-column col-3 col-md-2"></div>-->
+    <div class="container">
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div id="camera" class="container tab-pane active"><br>
+                <h3>HOME</h3>
+                <img src="/video_feed">
+            </div>
+            <div id="manage" class="container tab-pane fade"><br>
+                <!--            <div id="user_card" class="card flex-row mb-4 shadow-sm h-md-250" style="display: none">-->
+                <!--                <div class="card-body d-flex flex-column col-8">-->
+                <!--                    <div id='user_name' class="text-primary">姓名</div>-->
+                <!--                    <div id='user_tel'>电话号码</div>-->
+                <!--                    <div id='user_address'>住址</div>-->
+                <!--                    <div class="btn-group mt-auto">-->
+                <!--                        <button type="button" class="btn btn-sm btn-outline-secondary"-->
+                <!--                                data-toggle="modal" data-target="#editModal">编辑-->
+                <!--                        </button>-->
+                <!--                        <button type="button" class="btn btn-sm btn-outline-secondary">注销</button>-->
+                <!--                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="dis_select()">关闭-->
+                <!--                        </button>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+                <!--                <div class="card-body d-flex flex-row col-md-4">-->
+                <!--                    <div class="flex-column col-3 col-md-2"></div>-->
+                <!--                    <div >-->
+                <!--                       <img id='user_img' src="/static/imgTest.jpg" class="w-100 h-auto" title="头像">-->
+                <!--                    </div>-->
+                <!--                    <div class="flex-column col-3 col-md-2"></div>-->
 
-            <!--                </div>-->
-            <!--            </div>-->
-            <div id="user_card_edit" class="card flex-column flex-md-row mb-4 shadow-sm h-md-250" style="display: none">
-                <div class="card-body d-flex flex-column col-md-8">
+                <!--                </div>-->
+                <!--            </div>-->
+                <div id="user_card_edit" class="card flex-column flex-md-row mb-4 shadow-sm h-md-250"
+                    style="display: none">
+                    <div class="card-body d-flex flex-column col-md-8">
 
-                    <div class="form-group row">
-                        <label for="user_name_edit" class="col-sm-2 col-form-label">姓名</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="user_name_edit" placeholder="Name">
+                        <div class="form-group row">
+                            <label for="user_name_edit" class="col-sm-2 col-form-label">姓名</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="user_name_edit" placeholder="Name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="user_tel_edit" class="col-sm-2 col-form-label">电话</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="user_tel_edit" placeholder="tel">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="user_address_edit" class="col-sm-2 col-form-label">住址</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="user_address_edit" placeholder="Address">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="user_img_edit" class="col-sm-2 col-form-label">头像</label>
+                            <div class="col-sm-10">
+                                <input type="file" accept="image/jpeg,image/png" class="form-control-file"
+                                    id="user_img_edit">
+                            </div>
+                        </div>
+
+
+                        <div class="btn-group mt-auto">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="update_user()">保存修改
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="add_user()">注册为新用户
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                onclick="delete_user()">注销该用户</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="dis_select()">关闭该面板
+                            </button>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="user_tel_edit" class="col-sm-2 col-form-label">电话</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="user_tel_edit" placeholder="tel">
+                    <div class="card-body d-flex flex-row col-md-4">
+                        <div class="flex-column col-3 col-md-2"></div>
+                        <div class="w-100 h-100 bg-primary">
+                            <img id='user_img_update' src="" class="w-100 h-auto" alt="pic">
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="user_address_edit" class="col-sm-2 col-form-label">住址</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="user_address_edit" placeholder="Address">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="user_img_edit" class="col-sm-2 col-form-label">头像</label>
-                        <div class="col-sm-10">
-                            <input type="file" accept="image/jpeg,image/png" class="form-control-file"
-                                   id="user_img_edit">
-                        </div>
-                    </div>
+                        <div class="flex-column col-3 col-md-2"></div>
 
-
-                    <div class="btn-group mt-auto">
-                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="update_user()">保存修改
-                        </button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="add_user()">注册为新用户
-                        </button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="delete_user()">注销该用户</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="dis_select()">关闭该面板
-                        </button>
                     </div>
                 </div>
-                <div class="card-body d-flex flex-row col-md-4">
-                    <div class="flex-column col-3 col-md-2"></div>
-                    <div class="w-100 h-100 bg-primary">
-                        <img id='user_img_update' src="" class="w-100 h-auto" alt="pic">
-                    </div>
-                    <div class="flex-column col-3 col-md-2"></div>
+                <table id='user_table' class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">姓名</th>
+                            <th scope="col">电话</th>
+                            <th scope="col">住址</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user_list" title="点击进行编辑">
+                        <!--                <tr>-->
+                        <!--                    <th scope="row">1</th>-->
+                        <!--                    <td>Mark</td>-->
+                        <!--                    <td>110</td>-->
+                        <!--                    <td>武汉</td>-->
+                        <!--                </tr>-->
+                        <!--                <tr>-->
+                        <!--                    <th scope="row">2</th>-->
+                        <!--                    <td>Jacob</td>-->
+                        <!--                    <td>111</td>-->
+                        <!--                    <td>耒阳</td>-->
+                        <!--                </tr>-->
+                        <!--                <tr>-->
+                        <!--                    <th scope="row">3</th>-->
+                        <!--                    <td>Larry</td>-->
+                        <!--                    <td>120</td>-->
+                        <!--                    <td>上海</td>-->
+                        <!--                </tr>-->
+                    </tbody>
+                </table>
 
+                <!-- Modal -->
+                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">用户信息编辑</h5>
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    <label for="user_name_input" class="col-sm-2 col-form-label">姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="user_name_input" placeholder="Name">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="user_tel_input" class="col-sm-2 col-form-label">电话</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="user_tel_input" placeholder="Tel">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="user_address_input" class="col-sm-2 col-form-label">住址</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="user_address_input"
+                                            placeholder="Address">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" onclick="test()">保存</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <table id='user_table' class="table table-bordered">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">姓名</th>
-                    <th scope="col">电话</th>
-                    <th scope="col">住址</th>
-                </tr>
-                </thead>
-                <tbody id="user_list" title="点击进行编辑">
-                <!--                <tr>-->
-                <!--                    <th scope="row">1</th>-->
-                <!--                    <td>Mark</td>-->
-                <!--                    <td>110</td>-->
-                <!--                    <td>武汉</td>-->
-                <!--                </tr>-->
-                <!--                <tr>-->
-                <!--                    <th scope="row">2</th>-->
-                <!--                    <td>Jacob</td>-->
-                <!--                    <td>111</td>-->
-                <!--                    <td>耒阳</td>-->
-                <!--                </tr>-->
-                <!--                <tr>-->
-                <!--                    <th scope="row">3</th>-->
-                <!--                    <td>Larry</td>-->
-                <!--                    <td>120</td>-->
-                <!--                    <td>上海</td>-->
-                <!--                </tr>-->
-                </tbody>
-            </table>
-
-            <!-- Modal -->
-            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editModalLabel">用户信息编辑</h5>
-                            <button type="button" class="close" data-dismiss="modal">×</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group row">
-                                <label for="user_name_input" class="col-sm-2 col-form-label">姓名</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="user_name_input" placeholder="Name">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="user_tel_input" class="col-sm-2 col-form-label">电话</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="user_tel_input" placeholder="Tel">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="user_address_input" class="col-sm-2 col-form-label">住址</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="user_address_input"
-                                           placeholder="Address">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                            <button type="button" class="btn btn-primary" onclick="test()">保存</button>
-                        </div>
-                    </div>
-                </div>
+            <div id="log" class="container tab-pane fade"><br>
+                <h3>Menu 1</h3>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat.
+                </p>
             </div>
         </div>
-        <div id="log" class="container tab-pane fade"><br>
-            <h3>Menu 1</h3>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat.
-            </p>
-        </div>
     </div>
-</div>
 
-<script src="/static/jquery-3.5.1.min.js"></script>
-<script src="/static/bootstrap.bundle.min.js"></script>
+    <script src="/static/jquery-3.5.1.min.js"></script>
+    <script src="/static/bootstrap.bundle.min.js"></script>
 </body>
 <script>
     current_tr = ''
@@ -264,7 +265,7 @@
         $('#user_name_edit').val(name)
         $('#user_tel_edit').val(tel)
         $('#user_address_edit').val(address)
-        $('#user_img_update').attr('src', '/static/pictures/' + name + '.jpeg')
+        $('#user_img_update').attr('src', '/collect/pictures/' + name + '.jpeg')
         $('#user_card_edit').show()
     }
 

@@ -22,6 +22,9 @@ from wws_and_jl.auth import login_required
 from wws_and_jl.db import get_db
 
 bp = Blueprint("data", __name__, url_prefix="/data")
+picture_dir = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "collect/pictures"
+)
 
 
 def execute_sql(sql, choice):
@@ -115,14 +118,10 @@ def get_user_list():
     user_list = []
     i = 0
     for result in results:
-        user_list.append({
-            'user_name': result[1],
-            'user_tel': result[2],
-            'user_address': result[3],
-        })
-    return {
-        'user_list': user_list
-    }
+        user_list.append(
+            {"user_name": result[1], "user_tel": result[2], "user_address": result[3],}
+        )
+    return {"user_list": user_list}
 
 
 @bp.route("/add_user", methods=["POST"])
@@ -132,15 +131,15 @@ def add_user():
     tel = request.form["user_tel"]
     address = request.form["user_address"]
     sql = "SELECT * FROM user WHERE username = '%s'" % name
-    results = execute_sql(sql, 'select')
+    results = execute_sql(sql, "select")
     if results is not None:
-        return {'flag': 1}
+        return {"flag": 1}
 
     pic = request.files["user_img"]
-    pic.save("wws_and_jl/static/pictures/" + name + ".jpeg")
+    pic.save(picture_dir + name + ".jpeg")
     sql = (
-            "INSERT INTO user (username,phone_number,residence) VALUES ('%s','%s','%s')"
-            % (name, tel, address)
+        "INSERT INTO user (username,phone_number,residence) VALUES ('%s','%s','%s')"
+        % (name, tel, address)
     )
     execute_sql(sql, "insert")
     return {"flag": 0}
@@ -154,15 +153,15 @@ def update_user():
     tel = request.form["user_tel"]
     address = request.form["user_address"]
     pic = request.form["file_flag"]
-    if name != '':
+    if name != "":
         sql = "SELECT * FROM user WHERE username = '%s'" % name
-        results = execute_sql(sql, 'select')
+        results = execute_sql(sql, "select")
         if results is not None:
-            return {'flag': 1}
+            return {"flag": 1}
 
     if pic != "":
         pic = request.files["user_img"]
-        pic.save("wws_and_jl/static/pictures/" + raw_name + ".jpeg")
+        pic.save(picture_dir + raw_name + ".jpeg")
     if address != "":
         sql = "UPDATE user SET residence = '%s' WHERE username = '%s'" % (
             address,
@@ -179,8 +178,7 @@ def update_user():
         sql = "UPDATE user SET username = '%s' WHERE username = '%s'" % (name, raw_name)
         execute_sql(sql, "update")
         os.rename(
-            "wws_and_jl/static/pictures/" + raw_name + ".jpeg",
-            "wws_and_jl/static/pictures/" + name + ".jpeg",
+            picture_dir + raw_name + ".jpeg", picture_dir + name + ".jpeg",
         )
     return {"flag": 0}
 
@@ -188,8 +186,16 @@ def update_user():
 @bp.route("/delete_user", methods=["POST"])
 @login_required
 def delete_user():
-    name = request.form['user_name']
+    name = request.form["user_name"]
     sql = "DELETE FROM user WHERE username = '%s'" % name
     execute_sql(sql, "update")
-    os.rename("wws_and_jl/static/pictures/" + name + ".jpeg")
+    os.remove(picture_dir + name + ".jpeg")
     return {"flag": 0}
+
+
+# 请求返回照片 url为/data/picture/<username>，其中username作为变量
+@bp.route("/picture/<username>")
+@login_required
+def get_user_picture(username: str):
+    image = file(picture_dir + username + ".jpeg")
+    return Response(image, mimetype="image/jpeg")

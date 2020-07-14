@@ -7,11 +7,13 @@ import io
 import os
 import time
 import threading
+
 # from PIL import Image
 import numpy
 import cv2
+
 # import face_recognition
-# import picamera  ## 无树莓派测试时需要将该行注释
+# import picamera  # 无树莓派测试时需要将该行注释
 
 try:
     from greenlet import getcurrent as get_ident
@@ -35,8 +37,7 @@ known_face_names = []
 #             face_recognition.load_image_file(os.path.join(picture_dir, picture))
 #         )[0]
 #     )
-#     user_id = int(os.path.splitext(picture)[0])
-#     username = database.get_username(user_id)
+#     username = os.path.splitext(picture)[0]
 #     known_face_names.append(username)
 
 # 初始化一些变量

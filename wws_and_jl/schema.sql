@@ -1,14 +1,13 @@
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS record;
 CREATE TABLE user (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL,
+    username TEXT PRIMARY KEY,
     phone_number TEXT NOT NULL,
     residence TEXT NOT NULL
 );
 CREATE TABLE record (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
+    username INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES user (id)
+    FOREIGN KEY (username) REFERENCES user (username)
 );
