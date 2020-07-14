@@ -37,7 +37,8 @@
             </li>
         </ul>
         <div class="form-inline mt-2 mt-md-0">
-            <input id='user_search_input' class="form-control mr-md-2" type="text" placeholder="Search" aria-label="Search"
+            <input id='user_search_input' class="form-control mr-md-2" type="text" placeholder="Search"
+                   aria-label="Search"
                    list="search_list">
             <datalist id="search_list">
                 <option value="Mark">
@@ -60,22 +61,72 @@
             <img src="/video_feed">
         </div>
         <div id="manage" class="container tab-pane fade"><br>
-            <div id="user_card" class="card flex-row mb-4 shadow-sm h-md-250" style="display: none">
-                <div class="card-body d-flex flex-column align-items-start">
-                    <div id='user_name' class="text-primary">姓名</div>
-                    <div id='user_tel'>电话号码</div>
-                    <div id='user_address'>住址</div>
+<!--            <div id="user_card" class="card flex-row mb-4 shadow-sm h-md-250" style="display: none">-->
+<!--                <div class="card-body d-flex flex-column col-8">-->
+<!--                    <div id='user_name' class="text-primary">姓名</div>-->
+<!--                    <div id='user_tel'>电话号码</div>-->
+<!--                    <div id='user_address'>住址</div>-->
+<!--                    <div class="btn-group mt-auto">-->
+<!--                        <button type="button" class="btn btn-sm btn-outline-secondary"-->
+<!--                                data-toggle="modal" data-target="#editModal">编辑-->
+<!--                        </button>-->
+<!--                        <button type="button" class="btn btn-sm btn-outline-secondary">注销</button>-->
+<!--                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="dis_select()">关闭-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="card-body d-flex flex-row col-md-4">-->
+<!--                    <div class="flex-column col-3 col-md-2"></div>-->
+<!--                    <div >-->
+<!--                       <img id='user_img' src="/static/imgTest.jpg" class="w-100 h-auto" title="头像">-->
+<!--                    </div>-->
+<!--                    <div class="flex-column col-3 col-md-2"></div>-->
+
+<!--                </div>-->
+<!--            </div>-->
+            <div id="user_card_edit" class="card flex-column flex-md-row mb-4 shadow-sm h-md-250" style="display: none" >
+                <div class="card-body d-flex flex-column col-md-8">
+                    <div class="form-group row">
+                        <label for="user_name_edit" class="col-sm-2 col-form-label">姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="user_name_edit" placeholder="Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user_tel_edit" class="col-sm-2 col-form-label">电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="user_tel_edit" placeholder="tel">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user_address_edit" class="col-sm-2 col-form-label">住址</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="user_address_edit" placeholder="Address">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user_img_edit" class="col-sm-2 col-form-label">头像</label>
+                        <div class="col-sm-10">
+                            <input type="file" accept="image/jpeg,image/png" class="form-control-file" id="user_img_edit">
+                        </div>
+
+                    </div>
+
                     <div class="btn-group mt-auto">
-                        <button type="button" class="btn btn-sm btn-outline-secondary"
-                                data-toggle="modal" data-target="#editModal">编辑</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">注销</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="dis_select()">关闭</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">保存修改</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">注册为新用户</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">注销该用户</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="dis_select()">关闭该面板</button>
                     </div>
                 </div>
-                <div>
-                    <img src="/static/imgTest.jpg" style="height: 200px; width: auto" title="点击修改头像">
-                </div>
+                <div class="card-body d-flex flex-row col-md-4">
+                    <div class="flex-column col-3 col-md-2"></div>
+                    <div class="w-100 h-100 bg-primary">
+                        <img id='user_img_update' src="" class="w-100 h-auto" alt="pic">
+                    </div>
+                    <div class="flex-column col-3 col-md-2"></div>
 
+                </div>
             </div>
             <table id='user_table' class="table table-bordered">
                 <thead class="thead-dark">
@@ -133,7 +184,8 @@
                             <div class="form-group row">
                                 <label for="user_address_input" class="col-sm-2 col-form-label">住址</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="user_address_input" placeholder="Address">
+                                    <input type="text" class="form-control" id="user_address_input"
+                                           placeholder="Address">
                                 </div>
                             </div>
                         </div>
@@ -161,8 +213,15 @@
     current_tr = ''
     current_name = ''
 
+    $('#user_img_edit').change(function(){
+        console.log($(this))
+        $('#user_img_update').attr('src',URL.createObjectURL($(this)[0].files[0]));
+
+    });
+
+
     function test() {
-        let name,tel,address
+        let name, tel, address
         name = $('#user_name_input').val()
         tel = $('#user_tel_input').val()
         address = $('#user_address_input').val()
@@ -170,55 +229,59 @@
         $('#user_name').html(name)
         $('#user_tel').html(tel)
         $('#user_address').html(address)
-        console.log('name:'+ name +' '+ 'tel:'+ tel +' '+ 'address:' +address)
+        console.log('name:' + name + ' ' + 'tel:' + tel + ' ' + 'address:' + address)
     }
 
     $('tbody tr').click(e => tr_select(e.currentTarget))
 
     function tr_select(selected) {
         console.log(selected)
-        if(current_tr === ''){
+        if (current_tr === '') {
             current_tr = selected
             current_name = $(this).find('td').eq(0).html()
-        }else if(current_tr === this){
+        } else if (current_tr === this) {
             return
-        }else {
+        } else {
             $(current_tr).removeClass('bg-secondary')
             current_tr = selected
             current_name = $(selected).find('td').eq(0).html()
         }
-        let name,tel,address
+        let name, tel, address
         name = $(selected).find('td').eq(0).html()
         tel = $(selected).find('td').eq(1).html()
         address = $(selected).find('td').eq(2).html()
         console.log(address)
         $(selected).addClass('bg-secondary')
-        $('#user_name').html(name)
-        $('#user_tel').html(tel)
-        $('#user_address').html(address)
-        $('#user_card').show()
+        // $('#user_name').html(name)
+        // $('#user_tel').html(tel)
+        // $('#user_address').html(address)
+        // $('#user_card').show()
+        $('#user_name_edit').val(name)
+        $('#user_tel_edit').val(tel)
+        $('#user_address_edit').val(address)
+        $('#user_card_edit').show()
     }
 
     function dis_select() {
         $(current_tr).removeClass('bg-secondary')
         current_tr = ''
         current_name = ''
-        $('#user_name').html('')
-        $('#user_tel').html('')
-        $('#user_address').html('')
-        $('#user_card').hide()
+        $('#user_name_edit').val('')
+        $('#user_tel_edit').val('')
+        $('#user_address_edit').val('')
+        $('#user_card_edit').hide()
     }
 
-    function user_search(){
+    function user_search() {
         let name
         name = $('#user_search_input').val()
-        if(name === '' || name === current_name){
+        if (name === '' || name === current_name) {
             return
         }
         let arr = $('tbody').find('tr')
         let i = 0
-        while (i<arr.length){
-            if(name === arr.eq(i).find('td').eq(0).html()){
+        while (i < arr.length) {
+            if (name === arr.eq(i).find('td').eq(0).html()) {
                 tr_select(arr[i])
                 return
             }
