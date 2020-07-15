@@ -5,7 +5,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>登录</title>
-  <!-- //todo 配置静态文件 -->
   <link href="/static/bootstrap.min.css" rel="stylesheet">
   <link href="static/login.css" rel="stylesheet">
 
@@ -47,7 +46,6 @@
                 if (data['flag'] == 0) {
                     console.log(data)
                     alert("登录成功")
-                    // $.cookie('admin_confirm', admin_confirm)  // TODO: 这里的cookie认证如果比后台cookie认证方便写  可以把auth中的login和logout改一下
                     window.location.href = "/main.html"
                 } else {
                     alert("密码错误")

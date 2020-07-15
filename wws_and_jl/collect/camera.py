@@ -194,6 +194,7 @@ class Camera(BaseCamera):
                     else:
                         cached_users[username] = now
                         print("开门，请通过")
+                        database.add_record(username)
                     # TODO:调用数据库插入记录
                 for (top, right, bottom, left), name in zip(face_locations, face_names):
                     # Scale back up face locations since the frame we detected in was scaled to 1/4 size

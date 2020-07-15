@@ -5,6 +5,7 @@
 # @date: 2020/07/14
 import json
 import os
+import time
 
 from flask import (
     Blueprint,
@@ -197,3 +198,31 @@ def delete_user():
 def get_user_picture(username: str):
     image = open(picture_dir + username + ".jpeg", "rb")
     return Response(image, mimetype="image/jpeg")
+
+
+@bp.route("/get_record_list", methods=["POST"])
+@login_required
+def get_record_list():
+    sql = "SELECT * FROM record"
+    results = execute_sql(sql, "select")
+
+    record_list = []
+    i = 0
+    for result in results:
+        record_list.append(
+            {"name": result[1], "time": timestampToStr(result[2]), }
+        )
+    return {"user_list": record_list}
+
+
+def timestampToStr(create_time):
+    timeStr = time.localtime(create_time)
+    return time.strftime("%Y--%m--%d %H:%M:%S", timeStr)
+
+
+def add_record(name):
+    sql = (
+            "INSERT INTO record (username,create_time) VALUES ('%s','%s')"
+            % (name, time.time())
+    )
+    execute_sql(sql, "insert")
