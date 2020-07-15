@@ -44,7 +44,7 @@ known_face_names = []
 face_locations = []
 face_encodings = []
 face_names = []
-
+cached_users = {}
 
 class CameraEvent(object):
     """An Event-like class that signals all active clients when a new frame is
@@ -149,6 +149,7 @@ class Camera(BaseCamera):
             camera.hflip = False  # 是否进行水平翻转
             camera.vflip = False  # 是否进行垂直翻转
             camera.rotation = 180  # 是否对图像进行旋转
+            camera.resolution = (1280, 720)
             # 预热相机
             time.sleep(2)
 
@@ -182,7 +183,18 @@ class Camera(BaseCamera):
                     if matches[best_match_index]:
                         name = known_face_names[best_match_index]
                     face_names.append(name)
-
+                for username in face_names:
+                    now = time.time()
+                    if username in cached_users.keys():
+                        if cached_users[username] - now > 10:  # 两次通过相隔时间
+                            cached_users[username] = now
+                            print("开门，请通过")
+                        else:
+                            pass
+                    else:
+                        cached_users[username] = now
+                        print("开门，请通过")
+                    # TODO:调用数据库插入记录
                 for (top, right, bottom, left), name in zip(face_locations, face_names):
                     # Scale back up face locations since the frame we detected in was scaled to 1/4 size
                     top *= 4
