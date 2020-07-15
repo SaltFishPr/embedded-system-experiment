@@ -16,4 +16,4 @@ build/
 .vscode
 Pipfile.lock
 .idea
-wws_and_jl/collect/pictures
+wws_and_jl/collect/pictures/*
