@@ -117,7 +117,7 @@ def get_user_list():
     i = 0
     for result in results:
         user_list.append(
-            {"user_name": result[0], "user_tel": result[1], "user_address": result[2],}
+            {"user_name": result[1], "user_tel": result[2], "user_address": result[3], }
         )
     return {"user_list": user_list}
 
@@ -136,8 +136,8 @@ def add_user():
     pic = request.files["user_img"]
     pic.save(picture_dir + name + ".jpeg")
     sql = (
-        "INSERT INTO user (username,phone_number,residence) VALUES ('%s','%s','%s')"
-        % (name, tel, address)
+            "INSERT INTO user (username,phone_number,residence) VALUES ('%s','%s','%s')"
+            % (name, tel, address)
     )
     execute_sql(sql, "insert")
     return {"flag": 0}
