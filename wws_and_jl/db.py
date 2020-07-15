@@ -1,5 +1,5 @@
 import sqlite3
-
+import os
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
@@ -41,3 +41,8 @@ def init_db_command():
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+
+    # 创建pictures文件夹
+    picture_dir = os.path.join(os.path.dirname(__file__), "collect", "pictures")
+    if not os.path.exists(picture_dir):
+        os.mkdir(picture_dir)
