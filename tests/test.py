@@ -4,4 +4,6 @@
 # @file: test.py
 # @date: 2020/07/15
 import time
-print(time.time())
+
+print("\033[0;92m{}\033[0m".format(111))
+

@@ -7,7 +7,7 @@ import io
 import os
 import time
 import threading
-
+import sqlite3
 from PIL import Image
 import numpy
 import cv2
@@ -23,7 +23,7 @@ except ImportError:
     except ImportError:
         from _thread import get_ident
 
-from wws_and_jl import database
+from wws_and_jl.database import control
 
 # 照片路径
 picture_dir = os.path.join(os.path.dirname(__file__), "pictures")
@@ -192,8 +192,8 @@ class Camera(BaseCamera):
                         continue
                     else:
                         cached_users[username] = now
-                        database.add_record(username)
-                        print("开门，请通过")
+                        control.add_record(username)
+                        print("\033[0;92m{}\033[0m".format("开门，请通过"))
                 for (top, right, bottom, left), name in zip(face_locations, face_names):
                     # Scale back up face locations since the frame we detected in was scaled to 1/4 size
                     top *= 4

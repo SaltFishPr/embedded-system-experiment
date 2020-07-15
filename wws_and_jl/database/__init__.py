@@ -217,14 +217,6 @@ def timestampToStr(create_time):
     return time.strftime("%Y-%m-%d %H:%M", timeStr)
 
 
-def add_record(name):
-    sql = "INSERT INTO record (username, create_time) VALUES ('%s','%s')" % (
-        name,
-        int(time.time()),
-    )
-    execute_sql(sql, "insert")
-
-
 @bp.route("/test", methods=["POST"])
 def test():
     username = request.form["username"]
