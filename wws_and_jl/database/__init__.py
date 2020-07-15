@@ -208,7 +208,6 @@ def get_record_list():
     record_list = []
     for result in results:
         result = list(result)
-        print(result)
         record_list.append({"name": result[1], "time": timestampToStr(result[2])})
     return {"record_list": record_list}
 
