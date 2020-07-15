@@ -46,6 +46,7 @@ face_encodings = []
 face_names = []
 cached_users = {}
 
+
 class CameraEvent(object):
     """An Event-like class that signals all active clients when a new frame is
     available.
@@ -184,18 +185,16 @@ class Camera(BaseCamera):
                         name = known_face_names[best_match_index]
                     face_names.append(name)
                 for username in face_names:
-                    now = time.time()
-                    if username in cached_users.keys():
-                        if cached_users[username] - now > 10:  # 两次通过相隔时间
-                            cached_users[username] = now
-                            print("开门，请通过")
-                        else:
-                            pass
+                    now = int(time.time())
+                    if (
+                        username in cached_users.keys()
+                        and (cached_users[username] - now) <= 10
+                    ):
+                        continue
                     else:
                         cached_users[username] = now
-                        print("开门，请通过")
                         database.add_record(username)
-                    # TODO:调用数据库插入记录
+                        print("开门，请通过")
                 for (top, right, bottom, left), name in zip(face_locations, face_names):
                     # Scale back up face locations since the frame we detected in was scaled to 1/4 size
                     top *= 4

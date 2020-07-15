@@ -8,6 +8,6 @@ CREATE TABLE user (
 CREATE TABLE record (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username INTEGER NOT NULL,
-    create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    create_time INTEGER NOT NULL,
     FOREIGN KEY (username) REFERENCES user (username)
 );

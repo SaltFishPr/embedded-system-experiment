@@ -118,7 +118,7 @@ def get_user_list():
     i = 0
     for result in results:
         user_list.append(
-            {"user_name": result[1], "user_tel": result[2], "user_address": result[3], }
+            {"user_name": result[0], "user_tel": result[1], "user_address": result[2],}
         )
     return {"user_list": user_list}
 
@@ -137,8 +137,8 @@ def add_user():
     pic = request.files["user_img"]
     pic.save(picture_dir + name + ".jpeg")
     sql = (
-            "INSERT INTO user (username,phone_number,residence) VALUES ('%s','%s','%s')"
-            % (name, tel, address)
+        "INSERT INTO user (username,phone_number,residence) VALUES ('%s','%s','%s')"
+        % (name, tel, address)
     )
     execute_sql(sql, "insert")
     return {"flag": 0}
@@ -205,24 +205,29 @@ def get_user_picture(username: str):
 def get_record_list():
     sql = "SELECT * FROM record"
     results = execute_sql(sql, "select")
-
     record_list = []
-    i = 0
     for result in results:
-        record_list.append(
-            {"name": result[1], "time": timestampToStr(result[2]), }
-        )
-    return {"user_list": record_list}
+        result = list(result)
+        print(result)
+        record_list.append({"name": result[1], "time": timestampToStr(result[2])})
+    return {"record_list": record_list}
 
 
 def timestampToStr(create_time):
     timeStr = time.localtime(create_time)
-    return time.strftime("%Y--%m--%d %H:%M:%S", timeStr)
+    return time.strftime("%Y-%m-%d %H:%M", timeStr)
 
 
 def add_record(name):
-    sql = (
-            "INSERT INTO record (username,create_time) VALUES ('%s','%s')"
-            % (name, time.time())
+    sql = "INSERT INTO record (username, create_time) VALUES ('%s','%s')" % (
+        name,
+        int(time.time()),
     )
     execute_sql(sql, "insert")
+
+
+@bp.route("/test", methods=["POST"])
+def test():
+    username = request.form["username"]
+    add_record(username)
+    return "OK"
